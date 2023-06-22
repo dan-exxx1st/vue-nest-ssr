@@ -34,12 +34,6 @@
     "forceConsistentCasingInFileNames": false,
     "types": ["vite/client"]
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "src/router/*"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/router/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
