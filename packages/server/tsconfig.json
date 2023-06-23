@@ -18,7 +18,7 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "types": ["vite/client", "vite.d.ts"],
+    "types": ["vite/client", "../shared/vite.d.ts"],
     "moduleResolution": "node"
   },
   "exclude": ["node_modules"]
