@@ -32,7 +32,7 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "types": ["vite/client"],
+    "types": ["vite/client", "@vue/apollo-option"],
     "skipDefaultLibCheck": true
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/router/*"],

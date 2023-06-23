@@ -1,5 +1,5 @@
 import { SSRContext, renderToString } from "vue/server-renderer";
-import * as ApolloSSR from "@vue/apollo-ssr";
+import * as ApolloSSR from "@vue/apollo-ssr/dist/cjs/index";
 import { createApp } from "./";
 
 export async function render(url: string) {
