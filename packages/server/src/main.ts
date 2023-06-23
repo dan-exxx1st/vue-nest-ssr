@@ -6,6 +6,9 @@ import compression from "compression";
 import vuePlugin from "@vitejs/plugin-vue";
 import { render as serverRender } from "../../shared/entry/server";
 import { ViteDevServer, createServer } from "vite";
+import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
+import fastifyStatic from "@fastify/static";
 
 const isProduction = process.env.NODE_ENV === "production";
 const base = process.env.BASE || "/";
@@ -15,7 +18,7 @@ const templateHtml = isProduction ? readFileSync("./dist/client/index.html", "ut
 const ssrManifest = isProduction ? readFileSync("./dist/client/ssr-manifest.json", "utf-8") : undefined;
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, new FastifyAdapter());
   app.setGlobalPrefix("/api");
 
   let vite: ViteDevServer;
@@ -32,10 +35,15 @@ async function bootstrap() {
     app.use(base, sirv("./dist/client", { extensions: [] }));
   }
 
+  (app as unknown as NestFastifyApplication).register(fastifyStatic, {
+    root: "/public",
+    prefix: "/public/",
+  });
+
   // Serve HTML
-  app.use("*", async (req, res) => {
+  app.use("(.*)", async (req: FastifyRequest["raw"], res: FastifyReply["raw"]) => {
     try {
-      const url = req.originalUrl.replace(base, "");
+      const url = req.url.replace(base, "");
 
       let template;
       let render;
@@ -55,11 +63,12 @@ async function bootstrap() {
         .replace(`<!--app-head-->`, rendered.head ?? "")
         .replace(`<!--app-html-->`, rendered.html ?? "");
 
-      res.status(200).set({ "Content-Type": "text/html" }).end(html);
+      res.end(html);
     } catch (e) {
       vite?.ssrFixStacktrace(e);
       console.log((<Error>e).stack);
-      res.status(500).end((<Error>e).stack);
+      res.statusCode = 500;
+      res.end((<Error>e).stack);
     }
   });
   return app;
