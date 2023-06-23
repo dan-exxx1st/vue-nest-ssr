@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
-    "types": ["./types/vite.d.ts"]
-  }
+    "types": ["./types/vite.d.ts"],
+    "skipLibCheck": true
+  },
+  "exclude": ["../../node_modules"]
 }

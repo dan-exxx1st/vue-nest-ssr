@@ -5,7 +5,7 @@ import sirv from "sirv";
 import compression from "compression";
 import vuePlugin from "@vitejs/plugin-vue";
 import { render as serverRender } from "../../shared/entry/server";
-import { createServer } from "vite";
+import { ViteDevServer, createServer } from "vite";
 
 const isProduction = process.env.NODE_ENV === "production";
 const base = process.env.BASE || "/";
@@ -18,7 +18,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix("/api");
 
-  let vite;
+  let vite: ViteDevServer;
   if (!isProduction) {
     vite = await createServer({
       server: { middlewareMode: true },

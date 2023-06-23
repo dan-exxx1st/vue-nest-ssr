@@ -1,9 +1,9 @@
 import { createSSRApp } from "vue";
 import { createPinia } from "pinia";
-import { createApolloProvider } from "@vue/apollo-option";
 import { createRouter } from "../../client/src/router";
 import App from "../../client/src/App.vue";
 import { createApolloClient } from "../apollo";
+import { createApolloProvider } from "@vue/apollo-option";
 
 export function createApp(ssr = false) {
   const store = createPinia();

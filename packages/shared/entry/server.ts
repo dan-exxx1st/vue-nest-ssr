@@ -24,6 +24,7 @@ export async function render(url: string) {
   };
 
   const html = await renderToString(app, ctx);
+  const head = "";
 
-  return { html };
+  return { html, head };
 }

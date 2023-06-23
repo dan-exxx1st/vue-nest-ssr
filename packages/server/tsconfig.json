@@ -20,6 +20,5 @@
     "noFallthroughCasesInSwitch": false,
     "types": ["vite/client", "../shared/vite.d.ts"],
     "moduleResolution": "node"
-  },
-  "exclude": ["node_modules"]
+  }
 }

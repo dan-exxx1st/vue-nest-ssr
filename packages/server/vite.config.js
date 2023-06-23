@@ -19,7 +19,6 @@ export default defineConfig({
     }),
   ],
   optimizeDeps: {
-    disabled: true,
     exclude: [
       "@nestjs/microservices",
       "@nestjs/websockets",

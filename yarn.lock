@@ -898,10 +898,10 @@
     path-to-regexp "3.2.0"
     tslib "2.5.3"
 
-"@nestjs/platform-express@^9.0.0":
-  version "9.4.3"
-  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-9.4.3.tgz#f61b75686bdfce566be3b54fa7bb20a4d87ed619"
-  integrity sha512-FpdczWoRSC0zz2dNL9u2AQLXKXRVtq4HgHklAhbL59X0uy+mcxhlSThG7DHzDMkoSnuuHY8ojDVf7mDxk+GtCw==
+"@nestjs/platform-express@^10.0.3":
+  version "10.0.3"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-10.0.3.tgz#51db75cba3acd43cd8b3238841c7ce2d3132c94b"
+  integrity sha512-8wA4Onhu6/dQrzTsg6n3pe1WbK9vWFPhagX10eGesX2YvgpVT4ccL0lbJbzGM2CY94RkaxBBW46Q3NJ6Bf566g==
   dependencies:
     body-parser "1.20.2"
     cors "2.8.5"
@@ -1382,7 +1382,7 @@
   dependencies:
     throttle-debounce "^3.0.1"
 
-"@vue/apollo-ssr@^4.0.0-beta.5":
+"@vue/apollo-ssr@4.0.0-beta.5":
   version "4.0.0-beta.5"
   resolved "https://registry.yarnpkg.com/@vue/apollo-ssr/-/apollo-ssr-4.0.0-beta.5.tgz#6b973bc48ae616b9e284094f1058107c99f208f3"
   integrity sha512-Mq3y1e4Kt4Kj6t5U25WPE19UiEuSuYCV4CcOOngI9sZ8yf9hZlHAkjt7r1qPZ0hAv0HWUcLb++HIlb4LZCn++A==
@@ -2858,7 +2858,7 @@ expect@^29.0.0, expect@^29.5.0:
     jest-message-util "^29.5.0"
     jest-util "^29.5.0"
 
-express@4.18.2, express@^4.17.1, express@^4.18.2:
+express@4.18.2, express@^4.17.1:
   version "4.18.2"
   resolved "https://registry.yarnpkg.com/express/-/express-4.18.2.tgz#3fabe08296e930c796c19e3c516979386ba9fd59"
   integrity sha512-5/PsL6iGPdfQ/lKM1UuielYgv3BUoJfz1aUwU9vHZ+J7gyvwdQXFEBIEIaxeGf0GIcreATNyBExtalisDbuMqQ==
