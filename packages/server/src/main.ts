@@ -7,7 +7,7 @@ import vuePlugin from "@vitejs/plugin-vue";
 import { render as serverRender } from "../../shared/entry/server";
 import { ViteDevServer, createServer } from "vite";
 import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
-import { FastifyReply, FastifyRequest } from "fastify";
+import { FastifyReply, FastifyRequest, HookHandlerDoneFunction } from "fastify";
 import fastifyStatic from "@fastify/static";
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -41,35 +41,40 @@ async function bootstrap() {
   });
 
   // Serve HTML
-  app.use("(.*)", async (req: FastifyRequest["raw"], res: FastifyReply["raw"]) => {
-    try {
-      const url = req.url.replace(base, "");
+  app.use(async (req: FastifyRequest["raw"], res: FastifyReply["raw"], next: HookHandlerDoneFunction) => {
+    const { method, url } = req;
+    if (method === "GET" && !url.includes("graphql")) {
+      try {
+        const url = req.url.replace(base, "");
 
-      let template;
-      let render;
-      if (!isProduction) {
-        // Always read fresh template in development
-        template = readFileSync("./index.html", "utf-8");
-        template = await vite.transformIndexHtml(url, template);
-        render = (await vite.ssrLoadModule("packages/shared/entry/server")).render;
-      } else {
-        template = templateHtml;
-        render = serverRender;
+        let template;
+        let render;
+        if (!isProduction) {
+          // Always read fresh template in development
+          template = readFileSync("./index.html", "utf-8");
+          template = await vite.transformIndexHtml(url, template);
+          render = (await vite.ssrLoadModule("packages/shared/entry/server")).render;
+        } else {
+          template = templateHtml;
+          render = serverRender;
+        }
+
+        const rendered = await render(url, ssrManifest);
+
+        const html = template
+          .replace(`<!--app-head-->`, rendered.head ?? "")
+          .replace(`<!--app-html-->`, rendered.html ?? "");
+
+        res.end(html);
+      } catch (e) {
+        vite?.ssrFixStacktrace(e);
+        console.log((<Error>e).stack);
+        res.statusCode = 500;
+        res.end((<Error>e).stack);
       }
-
-      const rendered = await render(url, ssrManifest);
-
-      const html = template
-        .replace(`<!--app-head-->`, rendered.head ?? "")
-        .replace(`<!--app-html-->`, rendered.html ?? "");
-
-      res.end(html);
-    } catch (e) {
-      vite?.ssrFixStacktrace(e);
-      console.log((<Error>e).stack);
-      res.statusCode = 500;
-      res.end((<Error>e).stack);
     }
+
+    next();
   });
   return app;
 }

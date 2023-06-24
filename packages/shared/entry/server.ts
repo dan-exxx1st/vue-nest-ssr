@@ -1,10 +1,10 @@
 import { SSRContext, renderToString } from "vue/server-renderer";
-import * as ApolloSSR from "@vue/apollo-ssr/dist/cjs/index";
 import { createApp } from "./";
 
 export async function render(url: string) {
   const { app, router, store, apolloProvider } = createApp(true);
 
+  const apollo = await import("@vue/apollo-ssr/dist/cjs/index");
   // set the router to the desired URL before rendering
   await router.push(url);
   await router.isReady();
@@ -20,7 +20,8 @@ export async function render(url: string) {
     ctx.state = store.state;
 
     // ALso inject the apollo cache state
-    ctx.apolloState = ApolloSSR.getStates(apolloProvider.clients);
+
+    ctx.apolloState = apollo.getStates(apolloProvider.clients);
   };
 
   const html = await renderToString(app, ctx);

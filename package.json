@@ -19,9 +19,13 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/client": "^3.7.16",
+    "@apollo/server": "^4.7.4",
+    "@as-integrations/fastify": "^2.0.0",
     "@fastify/static": "^6.10.2",
+    "@nestjs/apollo": "^12.0.3",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/graphql": "^12.0.3",
     "@nestjs/platform-express": "^10.0.3",
     "@nestjs/platform-fastify": "^10.0.3",
     "@vue/apollo-option": "^4.0.0-beta.5",
@@ -35,6 +39,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "sirv": "^2.0.3",
+    "ts-morph": "^19.0.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.2"
   },

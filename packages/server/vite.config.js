@@ -5,6 +5,16 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig({
   build: {
     outDir: "dist/server",
+    rollupOptions: {
+      external: ["@vue/apollo-ssr"],
+      output: {
+        // Provide global variables to use in the UMD build
+        // for externalized deps
+        globals: {
+          "@vue/apollo-ssr": "@vue/apollo-ssr",
+        },
+      },
+    },
   },
   server: {
     port: 3000,
@@ -26,6 +36,7 @@ export default defineConfig({
       "class-transformer",
       "class-validator",
       "fastify-swagger",
+      "@apollo/subgraph",
     ],
   },
   esbuild: {
