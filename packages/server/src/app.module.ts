@@ -4,6 +4,7 @@ import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
 import { join } from "node:path";
 import { TestResolver } from "./graphql/test.resolver";
+import { PrismaService } from "./prisma.service";
 
 @Module({
   imports: [
@@ -18,6 +19,6 @@ import { TestResolver } from "./graphql/test.resolver";
       },
     }),
   ],
-  providers: [TestResolver],
+  providers: [PrismaService, TestResolver],
 })
 export class AppModule {}
