@@ -4,7 +4,7 @@ import { createApp } from "./";
 export async function render(url: string) {
   const { app, router, store, apolloProvider } = createApp(true);
 
-  const apollo = await import("@vue/apollo-ssr/dist/cjs/index");
+  const apollo = await import("@vue/apollo-ssr/dist/cjs/index.js");
   // set the router to the desired URL before rendering
   await router.push(url);
   await router.isReady();

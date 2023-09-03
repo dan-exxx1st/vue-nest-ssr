@@ -2,12 +2,12 @@ import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { readFileSync } from "fs";
 import sirv from "sirv";
-import compression from "compression";
+import compression from "@fastify/compress";
 import vuePlugin from "@vitejs/plugin-vue";
 import { render as serverRender } from "../../shared/entry/server";
 import { ViteDevServer, createServer } from "vite";
-import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
-import { FastifyReply, FastifyRequest, HookHandlerDoneFunction } from "fastify";
+import { FastifyAdapter } from "@nestjs/platform-fastify";
+import { FastifyInstance, FastifyReply, FastifyRequest, HookHandlerDoneFunction } from "fastify";
 import fastifyStatic from "@fastify/static";
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -20,10 +20,12 @@ const ssrManifest = isProduction ? readFileSync("./dist/client/ssr-manifest.json
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, new FastifyAdapter());
   app.setGlobalPrefix("/api");
+  const instance: FastifyInstance = app.getHttpAdapter().getInstance();
 
   let vite: ViteDevServer;
   if (!isProduction) {
     vite = await createServer({
+      cacheDir: "./node_modules/.vite-dev",
       server: { middlewareMode: true },
       appType: "custom",
       base,
@@ -31,11 +33,11 @@ async function bootstrap() {
     });
     app.use(vite.middlewares);
   } else {
-    app.use(compression());
+    instance.register(compression);
     app.use(base, sirv("./dist/client", { extensions: [] }));
   }
 
-  (app as unknown as NestFastifyApplication).register(fastifyStatic, {
+  instance.register(fastifyStatic, {
     root: "/public",
     prefix: "/public/",
   });

@@ -1,4 +1,4 @@
-import { createSSRApp } from "vue";
+import { createSSRApp, createApp as createVueApp } from "vue";
 import { createPinia } from "pinia";
 import { createRouter } from "../../client/src/router";
 import App from "../../client/src/App.vue";
@@ -7,7 +7,7 @@ import * as ApolloOption from "@vue/apollo-option/dist/vue-apollo-option.umd.js"
 
 export function createApp(ssr = false) {
   const store = createPinia();
-  const app = createSSRApp(App);
+  const app = ssr ? createSSRApp(App) : createVueApp(App);
   const router = createRouter();
   const apolloClient = createApolloClient(ssr);
 

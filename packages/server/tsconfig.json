@@ -1,4 +1,12 @@
 {
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs",
+      "target": "esnext",
+      "moduleResolution": "bundler",
+      "allowJs": true
+    }
+  },
   "compilerOptions": {
     "module": "esnext",
     "declaration": true,
@@ -10,7 +18,7 @@
     "lib": ["ES2020"],
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./src/server",
+    "baseUrl": ".",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
@@ -18,7 +26,7 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "types": ["vite/client", "../shared/vite.d.ts"],
+    "types": ["vite/client", "../shared/types/vite.d.ts"],
     "moduleResolution": "node",
     "esModuleInterop": true
   }
