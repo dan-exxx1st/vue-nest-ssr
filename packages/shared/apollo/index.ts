@@ -4,7 +4,7 @@ import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client/core";
 export function createApolloClient(ssr = false) {
   const httpLink = new HttpLink({
     // You should use an absolute URL here
-    uri: "/graphql",
+    uri: "http://localhost:3000/graphql",
   });
 
   const cache = new InMemoryCache();
