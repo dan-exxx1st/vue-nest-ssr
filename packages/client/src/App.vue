@@ -2,7 +2,7 @@
   <div>
     <h2>Asd</h2>
     <router-link to="/">Home</router-link> <br />
-    <router-link to="/about">About</router-link>
+    <router-link to="/about">Abouts</router-link>
 
     <router-view></router-view>
   </div>
