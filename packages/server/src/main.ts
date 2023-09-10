@@ -4,7 +4,7 @@ import { readFileSync } from "fs";
 import sirv from "sirv";
 import compression from "@fastify/compress";
 import vuePlugin from "@vitejs/plugin-vue";
-import { render as serverRender } from "../../shared/entry/server";
+import { RenderResult, render as serverRender } from "../../shared/entry/server";
 import { ViteDevServer, createServer } from "vite";
 import { FastifyAdapter } from "@nestjs/platform-fastify";
 import { FastifyInstance, FastifyReply, FastifyRequest, HookHandlerDoneFunction } from "fastify";
@@ -61,13 +61,14 @@ async function bootstrap() {
           render = serverRender;
         }
 
-        const rendered = await render(url, ssrManifest);
+        const { head, html, css } = <RenderResult>await render(url, ssrManifest);
 
-        const html = template
-          .replace(`<!--app-head-->`, rendered.head ?? "")
-          .replace(`<!--app-html-->`, rendered.html ?? "");
+        const renderedHtml = template
+          .replace(`<!--app-head-->`, head ?? "")
+          .replace(`<!--app-html-->`, html ?? "")
+          .replace(`<!--css-outlet-->`, css);
 
-        res.end(html);
+        res.end(renderedHtml);
       } catch (e) {
         vite?.ssrFixStacktrace(e);
         console.log((<Error>e).stack);

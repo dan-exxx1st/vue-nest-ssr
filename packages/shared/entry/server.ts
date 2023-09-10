@@ -1,8 +1,14 @@
 import { SSRContext, renderToString } from "vue/server-renderer";
 import { createApp } from "./";
 
-export async function render(url: string) {
-  const { app, router, store, apolloProvider } = createApp(true);
+export type RenderResult = {
+  html: string;
+  head: string;
+  css: string;
+};
+
+export async function render(url: string): Promise<RenderResult> {
+  const { app, router, store, apolloProvider, cssHtml } = createApp(true);
 
   const apollo = await import("@vue/apollo-ssr/dist/cjs/index.js");
   // set the router to the desired URL before rendering
@@ -27,5 +33,5 @@ export async function render(url: string) {
   const html = await renderToString(app, ctx);
   const head = "";
 
-  return { html, head };
+  return { html, head, css: cssHtml };
 }
